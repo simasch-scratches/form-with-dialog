@@ -4,6 +4,8 @@ import com.example.application.data.entity.SampleAddress;
 import com.example.application.data.service.SampleAddressService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Shortcuts;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -40,6 +42,10 @@ public class AddressFormView extends Div {
         add(createTitle());
         add(createFormLayout());
         add(createButtonLayout());
+
+        Shortcuts.addShortcutListener(street,
+                event -> new SomeDialog().open(),
+                Key.F9).listenOn(street);
 
         binder.bindInstanceFields(this);
 
