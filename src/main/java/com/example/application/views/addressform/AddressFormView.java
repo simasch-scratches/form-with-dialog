@@ -4,6 +4,8 @@ import com.example.application.data.entity.SampleAddress;
 import com.example.application.data.service.SampleAddressService;
 import com.example.application.views.MainLayout;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Key;
+import com.vaadin.flow.component.Shortcuts;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -41,6 +43,8 @@ public class AddressFormView extends Div {
         add(createFormLayout());
         add(createButtonLayout());
 
+        Shortcuts.addShortcutListener(street, () -> new SomeDialog().open(), Key.F9).listenOn(street);
+
         binder.bindInstanceFields(this);
 
         clearForm();
@@ -48,7 +52,7 @@ public class AddressFormView extends Div {
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
             addressService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " stored.");
+            Notification.show(binder.getBean().getClass().getSimpleName() + " stored.\nStreet = " +binder.getBean().getStreet());
             clearForm();
         });
     }
