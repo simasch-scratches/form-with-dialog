@@ -1,20 +1,14 @@
 package com.example.application.data.entity;
 
-import javax.annotation.Nonnull;
 import javax.persistence.Entity;
 
 @Entity
 public class SampleAddress extends AbstractEntity {
 
-    @Nonnull
     private String street;
-    @Nonnull
     private String postalCode;
-    @Nonnull
     private String city;
-    @Nonnull
     private String state;
-    @Nonnull
     private String country;
 
     public String getStreet() {

@@ -43,7 +43,12 @@ public class AddressFormView extends Div {
         add(createFormLayout());
         add(createButtonLayout());
 
-        Shortcuts.addShortcutListener(street, () -> new SomeDialog().open(), Key.F9).listenOn(street);
+        Shortcuts.addShortcutListener(street,
+                event -> {
+                    new SomeDialog().open();
+                    street.blur();
+                },
+                Key.F9).listenOn(street);
 
         binder.bindInstanceFields(this);
 
@@ -52,7 +57,7 @@ public class AddressFormView extends Div {
         cancel.addClickListener(e -> clearForm());
         save.addClickListener(e -> {
             addressService.update(binder.getBean());
-            Notification.show(binder.getBean().getClass().getSimpleName() + " stored.\nStreet = " +binder.getBean().getStreet());
+            Notification.show(binder.getBean().getClass().getSimpleName() + " stored. street=" + binder.getBean().getStreet());
             clearForm();
         });
     }
