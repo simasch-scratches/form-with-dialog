@@ -19,6 +19,9 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouteAlias;
+import com.vaadin.flow.shared.Registration;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 @PageTitle("Address Form")
 @Route(value = "address-form", layout = MainLayout.class)
@@ -43,9 +46,20 @@ public class AddressFormView extends Div {
         add(createFormLayout());
         add(createButtonLayout());
 
+        // Doesn't work!
+//        Shortcuts.addShortcutListener(street,
+//                event -> {
+//                    new SomeDialog().open();
+//                },
+//                Key.F9).listenOn(street);
+
+        AtomicReference<Registration> blur = new AtomicReference<>();
         Shortcuts.addShortcutListener(street,
-                event -> {
-                    new SomeDialog().open();
+                () -> {
+                    blur.set(street.addBlurListener(blurEvent -> {
+                        new SomeDialog().open();
+                        blur.get().remove();
+                    }));
                     street.blur();
                 },
                 Key.F9).listenOn(street);
